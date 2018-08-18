@@ -18,7 +18,7 @@ int binarySearch(
   int size_t        pass value)
 
 Array is from txt file simple 1 digit numbers with no garbage to parse
-Using int fgetc(FILE *stream) it returns car so convert to int.
+Using int fgetc(FILE *stream) it returns char so convert to int.
 void jumpSearch(
   int* target       pass pointer to address
   int size_t        pass value)

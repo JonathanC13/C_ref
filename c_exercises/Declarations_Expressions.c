@@ -320,7 +320,7 @@ int main(){
   if (binRet != -1){
     printf("13. Binary Search return index: %d\n", binRet);
   } else {
-    printf("13. Not found.");
+    printf("13: Binary. Not found.");
   }
 
   // Ex 14
@@ -335,8 +335,21 @@ int main(){
 
   printf("\nSorting ===\n");
 
+  printf("Ex 15: Bubble. \n");
   int *dd;  // pointer for return
   dd = bubbleSort();
+
+  for(int a = 0; a < 9; a ++){
+    printf("%d ", *(dd + a));
+  }
+
+  printf("\n\nEx 16: Insertion sort. \n");
+
+  int Ins_arr[6] = {5, 4, 6, 7, 1, 0};
+  insertionSort(Ins_arr, 6);
+  for(int a = 0; a < 6; a ++){
+    printf("%d ", *(Ins_arr + a));
+  }
 
   // binary search number 12
   // https://www.w3resource.com/c-programming-exercises/variable-type/index.php

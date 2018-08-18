@@ -3,4 +3,6 @@
 
 int *bubbleSort();
 
+void insertionSort(int *arr, int size);
+
 #endif

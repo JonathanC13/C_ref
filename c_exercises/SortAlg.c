@@ -11,8 +11,13 @@ typedef char *string;
 /* Inputs
 
 // TO return an array, must be a pointer to a static array.
+//https://www.tutorialspoint.com/cprogramming/c_return_arrays_from_function.htm
 int *bubbleSort()
   // Using char *fgets(char *str, int n, FILE *stream) reads a line from the specified stream and stores it into the string pointed to by str. It stops when either (n-1) characters are read, the newline character is read, or the end-of-file is reached, whichever comes first.
+
+// pass pointer to array
+// Using fgetc to grab words
+int insertionSort(int* p_Array, int size){
 
 
 */
@@ -22,6 +27,11 @@ int *bubbleSort(){
   int size = 9;
 
   int elem[size];  // must know the size of the array
+
+  static int retArray[9]; // static cannot be sorted so sort then copy
+  // static so it can be returned.
+  // for static the size must be a constant.
+
   int index = 0;
 
   char *strip_;
@@ -92,9 +102,59 @@ int *bubbleSort(){
 
     }
 
-    for(int a = 0; a < size; a ++){
-      printf("%d\n", elem[a]);
+
+    //for(int a = 0; a < size; a ++){
+    //  printf("%d\n", elem[a]);
+    //}
+
+    // copy the sorted array to the static array to be returned
+    for (int in = 0; in < size; in ++){
+      retArray[in] = elem[in];
     }
 
+  }
+  return retArray;
+
+}
+
+//shifting for insertion sort forward
+// index to place and shiftTO place
+void shiftArrFor(int *arr, int index, int shiftTo){
+  int temp = arr[shiftTo];
+
+  for (int k = shiftTo; k >= index; k--){
+    *(arr+k) = *(arr+k-1);
+    //arr[k] = arr[k-1];
+  }
+  arr[index] = temp;
+}
+
+void insertionSort(int *arr, int size){
+
+  for(int a = 0; a < 6; a ++){
+    printf("%d ", *(arr + a));
+  }
+  printf("\n");
+
+  int insertions = 0;
+
+  // current element to move
+  for (int curr = 0; curr < size; curr ++){
+    // iterate through the array
+  //  printf("Current: %d\n", curr);
+    for (int iter = 0; iter < curr; iter ++){
+      //printf("iter: %d\n", iter);
+      // if less than curr index check if elem[curr] is less than to place
+      if (iter != curr){
+        if(*(arr + curr) < *(arr + iter)){
+
+          // if curr value is less than the value at iter, then place on left
+          shiftArrFor(arr, iter, curr);
+          //printf("\n Placing at index: %d and shifting to: %d \n", iter, curr);
+          break;
+
+        }
+      }
+    }
   }
 }
