@@ -17,12 +17,28 @@ int *bubbleSort()
 
 // pass pointer to array
 // Using fgetc to grab words
-int insertionSort(int* p_Array, int size){
+int insertionSort(int* p_Array, int size)
+
+// Main will get the data through command line and pass a pointer to that array to this function.
+void mergeSort(int *array, int size)
 
 
 */
 
+void printArray(int arr[], int size){
 
+  printf("\n");
+  int i;
+  for (i=0; i < size; i++){
+    printf("%d ", arr[i]);
+  }
+  printf("\n");
+
+}
+
+// Reads data from file, puts them in an array and strips.
+// Input: null
+// Output: null
 int *bubbleSort(){
   int size = 9;
 
@@ -58,9 +74,10 @@ int *bubbleSort(){
            presence would allow to handle lines longer that sizeof(line) */
         //printf("%s\n", line);
 
-        // split by space
+        // get line and is split by a space
         word = strtok(line, " ");
         // print individual words
+        // that are split by the space
         while (word != NULL){
 
           //i_word = (int)(*(word));
@@ -129,12 +146,14 @@ void shiftArrFor(int *arr, int index, int shiftTo){
   arr[index] = temp;
 }
 
+// Insertion sort chooses the compare element starting from the base and compares it to each element on the left.
+// If an element is lower then it is moved to the wall that divides the ordered and non-ordered parts of the array.
+// When it reaches the comparing value, it is moved to the correct position, the wall.
+// Inputs: pointer to array: int *, size of aaray: int
+// Output: null
 void insertionSort(int *arr, int size){
 
-  for(int a = 0; a < 6; a ++){
-    printf("%d ", *(arr + a));
-  }
-  printf("\n");
+  printArray(arr, size);
 
   int insertions = 0;
 
@@ -157,4 +176,100 @@ void insertionSort(int *arr, int size){
       }
     }
   }
+}
+
+
+void orderAndMerge(int *array, int left, int mid, int right);
+
+// Merge sort, halve the array elements until the smallest groups of 1 element. Then compares and orders pairs of groups as it merges back into one complete set.
+// Since the array is filled through the command line, just pass the pointer to the array here
+// Input: array pointer: int *
+// Output: null
+void mergeSort(int *array, int size){
+
+  // currnet divided group size
+  int curr_groupSize;
+
+  // First index of left group
+  int left_index;
+
+  // Loop for increasing the group size until one complete set. It doubles since merging pairs of groups each time
+  for (curr_groupSize = 1; curr_groupSize < size; curr_groupSize = 2 * curr_groupSize){
+
+    // inner loop to split the smaller groups so they can be ordered.
+    for (left_index = 0; left_index < size-1; left_index = left_index + (2*curr_groupSize)){
+
+      // Find the midpoint of the pair to distiguish the left and right groups
+      int mid = left_index + curr_groupSize -1;
+
+      // Determine the end index for the right group
+      int right = int_min(mid + (2*curr_groupSize) -1, size - 1);
+
+      // order and merge the 2 groups
+      orderAndMerge(array, left_index, mid, right);
+
+    }
+  }
+}
+
+void orderAndMerge(int *array, int left, int mid, int right){
+
+  int i;  //
+  int j;  //
+  int k;  // used for indexing the arrays
+
+  int n1 = mid - left + 1;  // number of elements in left array
+  int n2 = right - mid;     // number of elements in right array
+
+  // temporary arrays for the groups;
+  int L_arr[n1];
+  int R_arr[n2];
+
+  // copy the data into the temporary arrays so we can compare
+  for (i = 0; i < n1; i++){
+    L_arr[i] = array[left + i];
+  }
+  for (j = 0; j < n2; j ++){
+    R_arr[j] = array[mid + 1 + j];
+  }
+
+  // copy the temp arrays back to the array indexes it was taken from, but in order.
+  // array[l to r]
+
+  i = 0; j = 0; k = left;  // k = l to keep track in original array
+
+  while(i < n1 && j < n2){
+
+    if (L_arr[i] <= R_arr[j]){
+
+
+        array[k] = L_arr[i];
+        i ++; // keep track of which element has been add (replace) back to the original array
+
+    } else {
+
+      array[k] = R_arr[j];
+      j ++;
+    }
+
+    k ++;
+  }
+
+  // After comparing and replacing values in the ariginal array, there may be elements in the temporary arrays that are left over due to one group using all its elements.
+  while (i < n1){
+    // copying remaining left side first, if there is any
+    array[k] = L_arr[i];
+    i ++;
+    k ++;
+  }
+
+  // Right elements if any remaining
+  while (j< n2){
+
+    array[k] = R_arr[j];
+    j ++;
+    k ++;
+
+  }
+
 }

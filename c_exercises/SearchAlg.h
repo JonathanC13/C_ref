@@ -1,6 +1,8 @@
 #ifndef SEARCHALG_H_  /* Include guard */
 #define SEARCHALG_H_
 
+int int_min(int a, int b);
+
 void linearSearch(int passArray[], int target, int *retIndex);
 
 int binarySearch(int* p_Array, int target, int size);
