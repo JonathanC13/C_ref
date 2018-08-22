@@ -20,6 +20,12 @@ int main( int argc, const char* argv[] ) { // or const char **argv
     comm_array[i] = i_arg;      // store into array
   }
 
+  int dupArray[size];
+
+  for (int j = 0; j < size; j ++){
+    dupArray[j] = comm_array[j];
+  }
+
   printf("Array contains: ");
   printArray(comm_array, size);
 
@@ -29,6 +35,27 @@ int main( int argc, const char* argv[] ) { // or const char **argv
 
   printf("The sorted array contains: ");
   printArray(comm_array, size);
+  printf("\n--\n");
+
+  int *p;
+  printf("\nMerge Sort with malloc\n");
+  p = heapArray();
+  printf("Sorted array contains: ");
+  printArray(p, 4);
+  printf("\n--\n");
+
+  free(p);
+
+  printf("\nQuick Sort\n");
+  printf("Array contains: %d", size);
+  printArray(dupArray, size);
+
+  quickSort(dupArray, 0, size-1);
+  printf("Sorted array contains: ");
+  printArray(dupArray, size);
+  //printf("%p what am i passing: ", (void *)&dupArr);
+  printf("\n--\n");
 
   return 0;
+
 }

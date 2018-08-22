@@ -147,9 +147,9 @@ void shiftArrFor(int *arr, int index, int shiftTo){
 }
 
 // Insertion sort chooses the compare element starting from the base and compares it to each element on the left.
-// If an element is lower then it is moved to the wall that divides the ordered and non-ordered parts of the array.
-// When it reaches the comparing value, it is moved to the correct position, the wall.
-// Inputs: pointer to array: int *, size of aaray: int
+// If the pivot is less than an element it is moved to the left of it.
+// An analogy is sorting a hand of cards systematically left to right.
+// Inputs: pointer to array: int *, size of array: int
 // Output: null
 void insertionSort(int *arr, int size){
 
@@ -163,7 +163,7 @@ void insertionSort(int *arr, int size){
   //  printf("Current: %d\n", curr);
     for (int iter = 0; iter < curr; iter ++){
       //printf("iter: %d\n", iter);
-      // if less than curr index check if elem[curr] is less than to place
+
       if (iter != curr){
         if(*(arr + curr) < *(arr + iter)){
 
@@ -271,5 +271,87 @@ void orderAndMerge(int *array, int left, int mid, int right){
     k ++;
 
   }
+
+}
+
+int *heapArray(){
+
+  int size = 4;
+  int *p_arr;
+  p_arr = malloc(size);
+
+  p_arr[0] = 5;
+  p_arr[1] = 4;
+  p_arr[2] = 3;
+  p_arr[3] = 2;
+
+  mergeSort(p_arr, size);
+
+  return p_arr;
+
+}
+
+// pass array by reference. So can swap the value at the addresses
+// swap(&arr[1], &arr[2])
+void swap(int *a, int *b){
+  int temp;
+
+  temp = *b;
+  *b = *a;
+  *a = temp;
+}
+
+// desc copied from: https://www.geeksforgeeks.org/quick-sort/
+int partition (int arr[], int low, int high);
+
+
+// pass by reference doc: http://www.cs.fsu.edu/~myers/cgs4406/notes/pointers.html
+
+// Start by choosing a compare element, in this case the most right elemnet, then it compares left to right. A wall index is tracked to divide the values less and greater than the pivot.
+// Each time an element is less than the pivot it swaps it to put it behind the wall and when it reaches the pivot it is swapped to the wall index.
+// We have to use the stack to
+// Inputs: int *arr, int low, int high. Must have these for recursion
+// Output: null
+void quickSort(int *arr, int low, int high){
+  //printf("%p what am i passing ", (void *)&arr[0]);
+  //printf("%p what am i passing ", (void *)&arr[1]);
+  
+  // base case for the recursion
+  if(low < high){
+    int piv = partition(arr, low, high);
+
+    quickSort(arr, low, piv -1); // sort the left of the wall
+
+    quickSort(arr, piv + 1, high);  // as the quickSort left pops, sort the right of it.
+  }
+
+}
+
+/* This function takes last element as pivot, places
+   the pivot element at its correct position in sorted
+    array, and places all smaller (smaller than pivot)
+   to left of pivot and all greater elements to right
+   of pivot */
+int partition(int arr[], int low, int high){
+  int pivot = arr[high];
+  int wall = low -1; // start the wall on the left of the first element
+
+  // traverse left to right and swap elements that are lower than the pivot to the left of the wall, increment the wall
+  for (int j = low; j <= high-1; j ++){
+
+    // if the element is larger than the pivot, keep the wall in place.
+
+    // if the element is smaller than the pivot, increment the wall and swap with the element at the wall index
+    if (arr[j] <= pivot){
+      wall ++;
+      swap(&arr[wall], &arr[j]);
+    }
+
+  }
+
+  // When it gets to the pivot, place it at the wall, wall + 1 since we are adding it to the left of the lower value elements
+  swap(&arr[wall+1], &arr[high]);
+
+  return (wall + 1);
 
 }
