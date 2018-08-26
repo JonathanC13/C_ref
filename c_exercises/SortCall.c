@@ -56,6 +56,15 @@ int main( int argc, const char* argv[] ) { // or const char **argv
   //printf("%p what am i passing: ", (void *)&dupArr);
   printf("\n--\n");
 
+  printf("Testing pointer values:");
+  int *k;
+  int m = 1;
+  k = &m;
+  printf("\nValue of k: %d\n", *k);
+  printf("Address of k: %p\n", k);
+  printf("What is this: %p", &k); // no idea
+  printf("\nAddress of m: %p", &m);
+
   return 0;
 
 }

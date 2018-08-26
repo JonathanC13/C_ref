@@ -22,6 +22,8 @@ int insertionSort(int* p_Array, int size)
 // Main will get the data through command line and pass a pointer to that array to this function.
 void mergeSort(int *array, int size)
 
+void quickSort(int *arr, int low, int high)
+
 
 */
 
@@ -315,7 +317,7 @@ int partition (int arr[], int low, int high);
 void quickSort(int *arr, int low, int high){
   //printf("%p what am i passing ", (void *)&arr[0]);
   //printf("%p what am i passing ", (void *)&arr[1]);
-  
+
   // base case for the recursion
   if(low < high){
     int piv = partition(arr, low, high);
