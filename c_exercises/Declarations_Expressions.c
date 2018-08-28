@@ -229,6 +229,64 @@ void callocBlock()
 
 }
 
+void string_to_wordsWtoken(){
+	int size = 100;
+	char str1[size];
+	char* word;
+	
+	char word_arr[size];
+	
+	printf("Using token, get words from string: ");
+	// get the string from user
+	fgets = (str1, sizeof(str1), stdin);
+	
+	// split the string by space
+	word = strtok(str1, " ");
+	
+	int i = 0;
+	// put words in an array
+	while(word != NULL){
+		word_arr[i] = word;
+		i ++;
+		// move pointer
+		word = strtok(NULL, " ");
+	}
+	int sizeofArr = (sizeof(word_arr)/sizeof(word_arr[0]);
+	printf("Array of size %d of words contains: ", sizeofArr);
+	for (int k = 0; k < sizeofArr; k ++){
+		printf("%s\n", word_arr[k]);	
+	}
+	printf("\n");
+}
+
+void string_to_wordReg(){
+	int size = 100;
+	char str1[size];
+	char subS[10][10];
+	printf("Using parsing, get words from string: ");
+	// get the string from user
+	fgets = (str1, sizeof(str1), stdin);
+	
+	int index, currentWord = 0;
+	for(int i = 0; i < strlen(str1); i ++){
+		if (str1[i] == " " || str1[i] == '\O'){
+			// means next word
+			currentWord ++;
+			index = 0;
+		} else {
+			// same word add next character
+			subS[currentWord][index] = str1[i];
+			index ++;
+		}
+	}
+	int sizeofArr = (sizeof(word_arr)/sizeof(word_arr[0]);
+	printf("Array of size %d of words contains: ", sizeofArr);
+	for (int k = 0; k < sizeofArr; k ++){
+		printf("%s\n", word_arr[k]);	
+	}
+	printf("\n");
+}
+
 //int ndays, y, m, d;
 //printf("Input no. of days: ");
 //scanf("%d", &ndays);
