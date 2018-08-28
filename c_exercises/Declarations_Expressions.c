@@ -269,7 +269,7 @@ void string_to_wordReg(){
 	
 	int index, currentWord = 0;
 	for(int i = 0; i < strlen(str1); i ++){
-		if (str1[i] == " " || str1[i] == '\O'){
+		if (str1[i] == " " || str1[i] == '\0'){
 			// means next word
 			currentWord ++;
 			index = 0;
@@ -284,6 +284,42 @@ void string_to_wordReg(){
 	for (int k = 0; k < sizeofArr; k ++){
 		printf("%s\n", word_arr[k]);	
 	}
+	printf("\n");
+}
+
+// ranges in decimal
+struct ascii_ranges{
+	int min;
+	int max;
+	int count;
+}
+			 
+void count_ascii(){
+	char arr[20] = "avsopo123";
+	
+	// just checking size
+	int sizeofArr = (sizeof(arr)/sizeof(arr[0]);
+	printf("Array of size %d: \n", sizeofArr);
+			 
+	struct ascii_ranges lower_alpha_ranges = {97, 122, 0};
+	struct ascii_ranges digit_ranges = {48, 57, 0};
+			 
+	// struct array
+	struct ascii_ranges all_ranges[2];
+	all_ranges[0] = lower_alpha_ranges;
+	all_ranges[1] = digit_ranges;			 
+			
+	for (char *p = arr; *p != '\0'; p ++){
+		for(int j = 0; j < 2; j ++){
+			if (all_ranges[j].min < *p && all_ranges[j].max > *p){
+				all_ranges[j].count ++;
+				break;
+			}
+		}
+	}
+			 
+	printf("Final count of alphabet: %d\n",all_ranges[0].count );
+	printf("Final count of digits*: %d\n",all_ranges[1].count );		 
 	printf("\n");
 }
 
@@ -309,6 +345,10 @@ void string_to_wordReg(){
 
 int main(){
 
+	string_to_wordsWtoken();
+	string_to_wordReg();
+	count_ascii();
+	
   // Ex 1
   char addon[3] = "HI";
   printName(addon);
@@ -411,6 +451,6 @@ int main(){
 
   // binary search number 12
   // https://www.w3resource.com/c-programming-exercises/variable-type/index.php
-
+	
   return 0;
 }
