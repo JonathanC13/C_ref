@@ -35,13 +35,11 @@ void reverseString(char *rev){
 
   char reverseArr[size];
 
-  int x = 0;
-  for (int i = size-1; i >= 0; i --){
-    reverseArr[x] = rev[i];
-    x ++;
+  for (int i = 0; i < size; i ++){
+    reverseArr[i] = rev[size - i - 1];
   }
-
-  reverseArr[x] = 0;
+  i ++;
+  reverseArr[i] = \0;
 
   printf("2. Reversed is: %s \n", reverseArr);
 }
@@ -257,6 +255,28 @@ void string_to_wordsWtoken(){
 		printf("%s\n", word_arr[k]);	
 	}
 	printf("\n");
+		
+	char *letter;
+	int count = 0;
+	printf("Find the number of occurrences of 'the'\n");
+	for(int m = 0; m < sizeofArr; m ++){
+		letter = &word_arr[m];
+		if(*letter == 't'){
+			letter ++;
+			if(*letter == 'h'){
+				letter ++;
+				if(*letter == 'e'){
+					letter++;
+					if(*letter == "\0"){
+						count ++;
+					}
+					
+				}
+			}
+		}
+	}
+			 
+	printf("The number is: %d\n", count);			 
 }
 
 void string_to_wordReg(){
@@ -285,6 +305,25 @@ void string_to_wordReg(){
 		printf("%s\n", word_arr[k]);	
 	}
 	printf("\n");
+
+	int count = 0;		 
+	int letter = 0;
+	printf("Find the number of occurrences of 'the'\n");
+	for(int m = 0; m < currentWord; m ++){
+		if(subS[m][letter] == 't'){
+			letter ++;
+			if (subS[m][letter] == 'h'){
+				letter ++;
+				if (subS[m][letter] == 'e'){
+					letter ++;
+					if(subS[m][letter] == " "){
+						count ++;	
+					}
+				}
+			}
+		}
+	}
+	printf("The number is: %d\n", count);				 
 }
 
 // ranges in decimal
@@ -322,6 +361,29 @@ void count_ascii(){
 	printf("Final count of digits*: %d\n",all_ranges[1].count );		 
 	printf("\n");
 }
+			 
+void compare_strings(){
+	char str1[20] = "Hello";
+	char str2[20] = "hell";
+	
+	printf("Comparing strings\n");
+	int same_flag = 1;
+	int i = 0;
+	while(str1[i] != '\0'){
+		if(str1[i] != str2[i]){
+			same_flag = 0;
+			break;
+		}
+	}
+	
+	if(same_flag = 0){
+		printf("The strings are not the same.\n");
+		
+	} else {
+		printf("The strings are the same);	
+	}
+	printf("\n");
+}
 
 //int ndays, y, m, d;
 //printf("Input no. of days: ");
@@ -348,6 +410,7 @@ int main(){
 	string_to_wordsWtoken();
 	string_to_wordReg();
 	count_ascii();
+	compare_strings();
 	
   // Ex 1
   char addon[3] = "HI";
