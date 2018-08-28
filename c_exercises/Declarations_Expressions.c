@@ -38,8 +38,8 @@ void reverseString(char *rev){
   for (int i = 0; i < size; i ++){
     reverseArr[i] = rev[size - i - 1];
   }
-  i ++;
-  reverseArr[i] = \0;
+
+  reverseArr[size] = 0;
 
   printf("2. Reversed is: %s \n", reverseArr);
 }
@@ -231,99 +231,129 @@ void string_to_wordsWtoken(){
 	int size = 100;
 	char str1[size];
 	char* word;
-	
-	char word_arr[size];
-	
+
+	char* word_arr[size];
+
 	printf("Using token, get words from string: ");
 	// get the string from user
-	fgets = (str1, sizeof(str1), stdin);
-	
+	fgets(str1, sizeof(str1), stdin);
+
 	// split the string by space
 	word = strtok(str1, " ");
-	
+
 	int i = 0;
+  int new_size = 0;
 	// put words in an array
 	while(word != NULL){
+    new_size ++;
 		word_arr[i] = word;
 		i ++;
 		// move pointer
 		word = strtok(NULL, " ");
 	}
-	int sizeofArr = (sizeof(word_arr)/sizeof(word_arr[0]);
-	printf("Array of size %d of words contains: ", sizeofArr);
-	for (int k = 0; k < sizeofArr; k ++){
-		printf("%s\n", word_arr[k]);	
+
+  char* storedWords[new_size];
+
+  // copy to smaller array
+  for(int r = 0; r < new_size; r++){
+    storedWords[r] = word_arr[r];
+  }
+
+	printf("Array of size %d of words contains: ", new_size);
+	for (int k = 0; k < new_size; k ++){
+		printf("%s\n", storedWords[k]);
 	}
 	printf("\n");
-		
+
+  printf("address of array %p", storedWords[0]);
 	char *letter;
 	int count = 0;
 	printf("Find the number of occurrences of 'the'\n");
-	for(int m = 0; m < sizeofArr; m ++){
-		letter = &word_arr[m];
+
+
+  for(int m = 0; m < new_size; m ++){
+		letter = storedWords[m]; // point to the start address of word_arr[m], skip words`
+    printf("%d. address of pointer to array: %p\n", m, letter);
 		if(*letter == 't'){
-			letter ++;
+      printf("%c \n", *letter);
+			letter ++;             // increment the letters in the word
+
 			if(*letter == 'h'){
+        printf("%c \n", *letter);
 				letter ++;
 				if(*letter == 'e'){
+          printf("%c \n", *letter);
 					letter++;
-					if(*letter == "\0"){
+					if(*letter == '\0' || *letter == '\n'){
+            printf("%c \n", *letter);
 						count ++;
 					}
-					
+
 				}
 			}
 		}
 	}
-			 
-	printf("The number is: %d\n", count);			 
+
+	printf("The number is: %d\n", count);
 }
 
 void string_to_wordReg(){
-	int size = 100;
-	char str1[size];
-	char subS[10][10];
-	printf("Using parsing, get words from string: ");
-	// get the string from user
-	fgets = (str1, sizeof(str1), stdin);
-	
-	int index, currentWord = 0;
-	for(int i = 0; i < strlen(str1); i ++){
-		if (str1[i] == " " || str1[i] == '\0'){
-			// means next word
-			currentWord ++;
-			index = 0;
-		} else {
-			// same word add next character
-			subS[currentWord][index] = str1[i];
-			index ++;
-		}
-	}
-	int sizeofArr = (sizeof(word_arr)/sizeof(word_arr[0]);
-	printf("Array of size %d of words contains: ", sizeofArr);
-	for (int k = 0; k < sizeofArr; k ++){
-		printf("%s\n", word_arr[k]);	
-	}
+  char str1[100];
+  char newString[10][10];
+  int i,j,ctr;
+     printf("\n\n Split string by space into words :\n");
+     printf("---------------------------------------\n");
+
+  printf(" Input  a string : ");
+  fgets(str1, sizeof str1, stdin);
+
+  j=0; ctr=0;
+  for(i=0;i<=(strlen(str1));i++)
+  {
+      // if space or NULL found, assign NULL into newString[ctr]
+      if(str1[i]==' '||str1[i]=='\0')
+      {
+          newString[ctr][j]='\0';
+          ctr++;  //for next word
+          j=0;    //for next word, init index to 0
+      }
+      else
+      {
+          newString[ctr][j]=str1[i];
+          j++;
+      }
+  }
+  printf("\n Strings or words after split by space are :\n");
+  for(i=0;i < ctr;i++)
+      printf(" %s\n",newString[i]);
+
 	printf("\n");
 
-	int count = 0;		 
+	int count = 0;
 	int letter = 0;
 	printf("Find the number of occurrences of 'the'\n");
-	for(int m = 0; m < currentWord; m ++){
-		if(subS[m][letter] == 't'){
-			letter ++;
-			if (subS[m][letter] == 'h'){
-				letter ++;
-				if (subS[m][letter] == 'e'){
-					letter ++;
-					if(subS[m][letter] == " "){
-						count ++;	
-					}
-				}
-			}
-		}
-	}
-	printf("The number is: %d\n", count);				 
+
+
+  for(int m = 0; m < ctr; m ++){
+
+    letter = 0;
+    if(newString[m][letter] == 't'){
+      printf("%c \n", newString[m][letter]);
+      letter ++;
+      if (newString[m][letter] == 'h'){
+        printf("%c \n", newString[m][letter]);
+        letter ++;
+        if (newString[m][letter] == 'e'){
+          printf("%c \n", newString[m][letter]);
+          letter ++;
+          if(newString[m][letter] == '\0' || newString[m][letter] == '\n'){
+            count ++;
+          }
+        }
+      }
+    }
+  }
+	printf("The number is: %d\n", count);
 }
 
 // ranges in decimal
@@ -331,41 +361,41 @@ struct ascii_ranges{
 	int min;
 	int max;
 	int count;
-}
-			 
+};
+
 void count_ascii(){
 	char arr[20] = "avsopo123";
-	
+
 	// just checking size
-	int sizeofArr = (sizeof(arr)/sizeof(arr[0]);
+	int sizeofArr = (sizeof(arr)/sizeof(arr[0]));
 	printf("Array of size %d: \n", sizeofArr);
-			 
+
 	struct ascii_ranges lower_alpha_ranges = {97, 122, 0};
 	struct ascii_ranges digit_ranges = {48, 57, 0};
-			 
+
 	// struct array
 	struct ascii_ranges all_ranges[2];
 	all_ranges[0] = lower_alpha_ranges;
-	all_ranges[1] = digit_ranges;			 
-			
+	all_ranges[1] = digit_ranges;
+
 	for (char *p = arr; *p != '\0'; p ++){
 		for(int j = 0; j < 2; j ++){
-			if (all_ranges[j].min < *p && all_ranges[j].max > *p){
+			if (all_ranges[j].min <= *p && all_ranges[j].max >= *p){
 				all_ranges[j].count ++;
 				break;
 			}
 		}
 	}
-			 
+
 	printf("Final count of alphabet: %d\n",all_ranges[0].count );
-	printf("Final count of digits*: %d\n",all_ranges[1].count );		 
+	printf("Final count of digits: %d\n",all_ranges[1].count );
 	printf("\n");
 }
-			 
+
 void compare_strings(){
 	char str1[20] = "Hello";
-	char str2[20] = "hell";
-	
+	char str2[20] = "Hello";
+
 	printf("Comparing strings\n");
 	int same_flag = 1;
 	int i = 0;
@@ -374,13 +404,18 @@ void compare_strings(){
 			same_flag = 0;
 			break;
 		}
+    i ++;
 	}
-	
-	if(same_flag = 0){
+
+  if ((str1[i] == '\0' && str2[i] != '\0') || (str1[i] != '\0' && str2[i] == '\0')){
+    same_flag = 0;
+  }
+
+	if(same_flag == 0){
 		printf("The strings are not the same.\n");
-		
+
 	} else {
-		printf("The strings are the same);	
+		printf("The strings are the same\n");
 	}
 	printf("\n");
 }
@@ -407,11 +442,11 @@ void compare_strings(){
 
 int main(){
 
-	string_to_wordsWtoken();
-	string_to_wordReg();
-	count_ascii();
+	//string_to_wordsWtoken();
+	//string_to_wordReg();
+	//count_ascii();
 	compare_strings();
-	
+/*
   // Ex 1
   char addon[3] = "HI";
   printName(addon);
@@ -514,6 +549,7 @@ int main(){
 
   // binary search number 12
   // https://www.w3resource.com/c-programming-exercises/variable-type/index.php
-	
+
   return 0;
+  */
 }
