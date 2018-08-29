@@ -1,2 +1,2 @@
 # c_simple
-Some exercisees
+Some exercises
