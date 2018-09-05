@@ -114,23 +114,14 @@ int main(){
     sleep(2); // give consumer a chance
   }
 
-  // The sem_unlink() function removes the semaphore identified by name and marks the semaphore to be destroyed once all processes cease using it (this may mean immediately, if all processes that had the semaphore open have already closed it).
+  // close the semaphore for this process, the semaphore remains in the system
   sem_close(sem);
   sem_close(sem_delay);
-  sem_unlink(SEM_NAME);
-  sem_unlink(SEM_DELAY);
 
   // after finished, detach from shared memory
   if (shmdt(shared_memory) == -1){
   fprintf(stderr, "shmdt failed\n");
   exit(EXIT_FAILURE);
   }
-
-  // Delete the shared memory since this is the creator
-  if(shmctl(shmid, IPC_RMID, 0) == -1){
-  fprintf(stderr,"shmctl(IPC_RMID) failed\n");
-  exit(EXIT_FAILURE);
-  }
-  exit(EXIT_SUCCESS);
 
 }
