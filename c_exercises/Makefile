@@ -1,4 +1,4 @@
-all: myExercises someSorts DB_LinkedList Producer Consumer
+all: myExercises someSorts DB_LinkedList Producer Consumer CaesarC
 
 myExercises: Declarations_Expressions.c SearchAlg.c SortAlg.c
 	gcc -o myExercises Declarations_Expressions.c SearchAlg.c SortAlg.c -lm
@@ -14,3 +14,6 @@ Producer: sh1_prod.c
 
 Consumer: sh2_cons.c
 	gcc -o Consumer sh2_cons.c -lpthread
+
+CaesarC: CaesarCipher.c SearchAlg.c
+	gcc -o CaesarC CaesarCipher.c SearchAlg.c -lm

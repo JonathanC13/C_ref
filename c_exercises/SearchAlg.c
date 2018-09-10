@@ -91,6 +91,48 @@ int binarySearch(int* p_Array, int target, int size){
   return found;
 }
 
+// binary Search for CHAR array
+// Input: (1D array passed by pointer: int, search value:int, array size:int)
+// return: index of found:int
+int char_binarySearch(char* p_Array, char target, int size){
+  int count = 0;
+  // Passing an array pointer as arg
+  // Can use indexing p_Array[index] or *(p_Array + index) for the value
+  int curr;
+
+  int low = 0;
+  int high = size;
+  int pivot;
+  int found = -1;
+
+  while (low <= high){
+    count ++; // just to keep track
+
+    pivot = floor((low + high) /2);
+
+    curr = *(p_Array+pivot);
+
+
+    //printf("pivot: %d and value: %d ; high: %d : low: %d\n", pivot, curr, high, low);
+    // if if value matches target
+    if(curr == target){
+      found = pivot;
+      break;
+    } else {
+      // if value is less than the pivot means the next section is to the left.
+      if (target < curr){
+        high = pivot - 1;
+      } else {  // to the right
+        low = pivot + 1;
+      }
+    }
+
+  }
+  //printf("\ncount: %d\n", count);
+
+  return found;
+}
+
 char *strip_chars(char *string, char *chars);
 
 int int_min(int a, int b);

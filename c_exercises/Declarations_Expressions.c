@@ -327,27 +327,27 @@ void string_to_wordReg(){
   for(i=0;i < ctr;i++)
       printf(" %s\n",newString[i]);
 
-	
+
 	// reverse the order of the words
-	char revWords[ctr];
-	
+	char revWords[ctr][10];
+
 	for(int n = 0; n < ctr; n ++){
 		// try strcpy
-		strcpy(revWords[n], newString[ctr-n-1];
-		//revWords[n] = newString[ctr- n - 1];	
+		strcpy(revWords[n], newString[ctr-n-1]);
+		//revWords[n] = newString[ctr- n - 1];
 	}
-	
+
 	printf("\n Words in reverse are: \n");
   	for(i=0;i < ctr;i++)
       		printf(" %s\n",revWords[i]);
-		       
+
 	printf("\n");
 
 	int count = 0;
 	int letter = 0;
 	printf("Find the number of occurrences of 'the'\n");
-		       
-	
+
+
 
   for(int m = 0; m < ctr; m ++){
 
@@ -434,13 +434,13 @@ void compare_strings(){
 	}
 	printf("\n");
 }
-		       
-// sort alphabetically		      
-void bubbleSortWords(char *arr, int size){
-	
+
+// sort alphabetically
+void bubbleSortWords(char **arr, int size){
+
 	int swaps;
 	char temp[10];
-	
+
 	for (int i = 0; i < size-1; i ++){
 		// just checking first letter
 		if(arr[i][0] > arr[i+1][0]){
@@ -449,13 +449,13 @@ void bubbleSortWords(char *arr, int size){
 			strcpy(arr[i], temp);
 		}
 	}
-	
+
 	printf("Sorted alphabetically\n");
 	for(int k = 0; k < size; k ++){
-		printf("%s ", arr[k]);	
+		printf("%s ", arr[k]);
 	}
-	
-}	
+
+}
 
 //int ndays, y, m, d;
 //printf("Input no. of days: ");
@@ -480,14 +480,14 @@ void bubbleSortWords(char *arr, int size){
 int main(){
 
 	//string_to_wordsWtoken();
-	//string_to_wordReg();
+	string_to_wordReg();
 	//count_ascii();
-	compare_strings();
-	
-	int w_arrSize = 4;
-	char* wordArray[w_arrSize] = {"Banana", "Apple", "Zoo", "Tool"};
-	// need to pass size because when passed as an argument it is the pointer not the whole array				   
-	bubbleSortWords(wordArray, w_arrSize);
+	//compare_strings();
+
+	//int w_arrSize = 4;
+	//char* wordArray[w_arrSize] = {"Banana", "Apple", "Zoo", "Tool"};
+	// need to pass size because when passed as an argument it is the pointer not the whole array
+	//bubbleSortWords(wordArray, w_arrSize);
 /*
   // Ex 1
   char addon[3] = "HI";
@@ -594,4 +594,5 @@ int main(){
 
   return 0;
   */
+  return 0;
 }

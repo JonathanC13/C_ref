@@ -7,6 +7,8 @@ void linearSearch(int passArray[], int target, int *retIndex);
 
 int binarySearch(int* p_Array, int target, int size);
 
+int char_binarySearch(char* p_Array, char target, int size);
+
 void jumpSearch(int* target, int size);
 
 
