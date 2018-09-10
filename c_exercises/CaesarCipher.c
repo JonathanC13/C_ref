@@ -11,7 +11,7 @@ int binarySearch(int* p_Array, int target, int size){
 */
 #include "SearchAlg.h"  // for binary search
 
-void createEncryptionPattern(char *normal, char *arr, int key){
+void createEncryptionPattern(char *normal, char *arr_encryption, int key){
 
   int lowerCaseOffset = 96;
 
@@ -41,7 +41,7 @@ void createEncryptionPattern(char *normal, char *arr, int key){
       key = 0;
       letter = letterMin;
     }
-    arr[i] = letter;  // letter to the encryption array
+    arr_encryption[i] = letter;  // letter to the encryption array
   }
 
 
@@ -109,6 +109,36 @@ int encrypt(char *input, char *encrypted){
 
 }
 
+// Get the encypted message and the key then decrypt it for the user
+// Input: encryptedMsg: char array; deciphered: char array; key: int
+// Output
+void decrypt(char encryptedMsg[], char deciphered[], int key){
+  int alphabetSize = 26; // 0 to 25
+  char norm_alpha[alphabetSize];  // array for normal alphabet
+  char encrypPattern[alphabetSize]; // array for encryption pattern
+  
+  // fill normal alphabet array, encryption pattern array
+  createEncryptionPattern(norm_alpha, encrypPattern, key);
+  
+  int end;
+  
+  for(int i = 0; encryptedMsg[i] != '\0'; i++){
+    end = i;
+    // check if space
+    if (encryptedMsg[i] == ' '){
+      deciphered[i] = ' ';
+    }
+    // find the location of the encrypted character in the cipher
+    int patternIndex = char_binarySearch(encrypPattern, encryptedMsg[i], alphabetSize);
+    
+    // place deciphered character into array
+    deciphered[i] = norm_alpha[patternIndex];
+  }
+  
+  deciphered[end] = '\0';
+  
+}
+
 // get user input text, encrypt is with the cipher, then decode it and display.
 // Input: null
 // Output: 0 on success
@@ -131,6 +161,13 @@ int main(){
 
   printf("\nThe key is: %d.\n", key);
   printf("Encrypted message: %s \n", encryptedMsg);
+  
+  // decipher message
+  char decipheredMsg[100];
+  
+  decrypt(encryptedMsg, decipheredMsg, key);
+  
+  printf("Decrypted message: %s \n", decipheredMsg);
 
   return 0;
 }
