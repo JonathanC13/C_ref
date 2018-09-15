@@ -33,12 +33,12 @@ using fscanf(FILE *stream, const char *format, ...)
 // Linear Search
 // Input: (1D array passed by unsized array:int, search value:int, and varable pointer to store index:int* )
 // return: void
-void linearSearch(int passArray[], int target, int *retIndex){
+void linearSearch(int passArray[], int target, int *retIndex, int size){
 
 
   // cannot use size unless you count it in this scope, so terminate on special char
-  for (int index = 0; passArray[index] != '\0'; index ++){
-
+  //for (int index = 0; passArray[index] != '\0'; index ++){
+  for (int index = 0; index < size; index ++){
     // if value of pointer t matches the searched value, store it in and break
     if(passArray[index] == target){
       *retIndex = index;  // pointer value points to another value. Set the value pointed by retIndex to index
@@ -46,6 +46,25 @@ void linearSearch(int passArray[], int target, int *retIndex){
       break;
     }
   }
+
+}
+
+int char_linearSearch(char passArray[], char target, int size){
+  int found = -1;
+  // cannot use size unless you count it in this scope, so terminate on special char
+  for (int index = 0; index < size; index ++){
+
+    // if value of pointer t matches the searched value, store it in and break
+    if(passArray[index] == target){
+      found = index;  // pointer value points to another value. Set the value pointed by retIndex to index
+      // So when it leaves this scope the value is assigned to another address in main
+      break;
+    }
+
+
+  }
+
+  return found;
 
 }
 
@@ -98,17 +117,17 @@ int char_binarySearch(char* p_Array, char target, int size){
   int count = 0;
   // Passing an array pointer as arg
   // Can use indexing p_Array[index] or *(p_Array + index) for the value
-  int curr;
-
+  char curr;
+  //printf("binary search: %s\n", p_Array);
   int low = 0;
-  int high = size;
+  int high = size-1;
   int pivot;
   int found = -1;
 
   while (low <= high){
-    count ++; // just to keep track
+    //printf("Char search: %d, high: %d, low: %d. \n", count, high, low);
 
-    pivot = floor((low + high) /2);
+    pivot = low + ((high - low) /2);
 
     curr = *(p_Array+pivot);
 
@@ -116,6 +135,7 @@ int char_binarySearch(char* p_Array, char target, int size){
     //printf("pivot: %d and value: %d ; high: %d : low: %d\n", pivot, curr, high, low);
     // if if value matches target
     if(curr == target){
+      count ++; // just to keep track of value looking
       found = pivot;
       break;
     } else {

@@ -5,6 +5,8 @@ int int_min(int a, int b);
 
 void linearSearch(int passArray[], int target, int *retIndex);
 
+int char_linearSearch(char passArray[], char target, int size);
+
 int binarySearch(int* p_Array, int target, int size);
 
 int char_binarySearch(char* p_Array, char target, int size);

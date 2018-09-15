@@ -13,18 +13,19 @@ int binarySearch(int* p_Array, int target, int size){
 
 void createEncryptionPattern(char *normal, char *arr_encryption, int key){
 
-  int lowerCaseOffset = 96;
-
-  int letterSize = 26; // 0 to 25
-
-  //fill  normal alphabet array
-  for (int a = 0; a < letterSize; a ++){
-    normal[a] = a + lowerCaseOffset + 1;
-  }
-
   // Ascii range for lower case letters
   int letterMin = 97;
   int letterMax = 122;
+
+
+  int letterSize = 26; // 0 to 25
+
+  //fill  normal alphabet array, abcdefghijklmnoqrstuvwxyz
+  for (int a = 0; a < letterSize; a ++){
+    normal[a] = a + letterMin;
+  }
+
+  normal[letterSize] = '\0';
 
   int letter;
   int index = -1;
@@ -33,17 +34,18 @@ void createEncryptionPattern(char *normal, char *arr_encryption, int key){
   for(int i = 0; i < letterSize; i ++){
 
     index ++;
-    letter = key + index + lowerCaseOffset;  // offset for ascii char
+    letter = key + index + letterMin;  // offset for ascii char
 
     //printf("%c and %d.\n", letter, letter);
     if (letter > letterMax ){
-      index = 1;
+      index = 0;
       key = 0;
       letter = letterMin;
     }
     arr_encryption[i] = letter;  // letter to the encryption array
   }
 
+  arr_encryption[letterSize] = '\0';
 
   //printf("\nEncryption pattern: %s \n", arr);
   /*
@@ -63,7 +65,7 @@ int encrypt(char *input, char *encrypted){
   // initialize random number generator
   srand((unsigned) time(&t));
 
-  int alphabetSize = 26; // 0 to 25
+  int alphabetSize = 26; // 0 to 25, if shift 26 then normal alphabet
   int shift = (rand() % alphabetSize);  // Get random shift number for the encryption patter
 
   char encryptPattern[alphabetSize];  // array to be filled with the encryption pattern
@@ -75,8 +77,8 @@ int encrypt(char *input, char *encrypted){
 
   // call creation function
   createEncryptionPattern(normalAlpha, encryptPattern, shift);
-  encryptPattern[26] = '\0';
-  normalAlpha[26] = '\0';
+  //encryptPattern[26] = '\0';
+  //normalAlpha[26] = '\0';
 
   int patternIndex;
 
@@ -89,17 +91,17 @@ int encrypt(char *input, char *encrypted){
   for (int m = 0; input[m] != '\0'; m ++){
     end = m;
     if(input[m] == ' '){
-      printf("input char %c.\n", input[m]);
+      //printf("input char %c.\n", input[m]);
       encrypted[m] = ' ';
       continue;
     }
 
     // find location of alphabet letter in normal alphabet
-    printf("input char %c.\n", input[m]);
+    //printf("input char %c.\n", input[m]);
     patternIndex = char_binarySearch(normalAlpha, input[m], alphabetSize);
     // now look at the same index in the encryption pattern and add the letter
     encrypted[m] = encryptPattern[patternIndex];
-    printf("changed to: %c\n", encrypted[m]);
+    //printf("changed to: %c\n", encrypted[m]);
   }
 
   encrypted[end] = '\0'; // end the string
@@ -111,32 +113,44 @@ int encrypt(char *input, char *encrypted){
 
 // Get the encypted message and the key then decrypt it for the user
 // Input: encryptedMsg: char array; deciphered: char array; key: int
-// Output
-void decrypt(char encryptedMsg[], char deciphered[], int key){
+// Output: retunrn 0 on success
+int decrypt(char encryptedMsg[], char* deciphered, int key){
   int alphabetSize = 26; // 0 to 25
   char norm_alpha[alphabetSize];  // array for normal alphabet
   char encrypPattern[alphabetSize]; // array for encryption pattern
-  
+
   // fill normal alphabet array, encryption pattern array
   createEncryptionPattern(norm_alpha, encrypPattern, key);
-  
+
+  printf("Reg: %s\n",norm_alpha);
+  printf("Enc: %s\n", encrypPattern);
+
   int end;
-  
+  int patternIndex;
+
   for(int i = 0; encryptedMsg[i] != '\0'; i++){
     end = i;
     // check if space
     if (encryptedMsg[i] == ' '){
+      //printf("input char %c.\n", encryptedMsg[i]);
       deciphered[i] = ' ';
+      continue;
     }
-    // find the location of the encrypted character in the cipher
-    int patternIndex = char_binarySearch(encrypPattern, encryptedMsg[i], alphabetSize);
-    
+    // find the location of the encrypted character in the cipher, must use linear search due to shift!!!
+    patternIndex = char_linearSearch(encrypPattern, encryptedMsg[i], alphabetSize);
+    if (patternIndex == -1){
+      printf("not found: %c\n", encryptedMsg[i]);
+    }
     // place deciphered character into array
     deciphered[i] = norm_alpha[patternIndex];
+    //printf("input char %c.\n", encryptedMsg[i]);
   }
-  
-  deciphered[end] = '\0';
-  
+
+  deciphered[end+1] = '\0';
+
+  //printf("1. Dec: %s\n", deciphered);
+  return 0;
+
 }
 
 // get user input text, encrypt is with the cipher, then decode it and display.
@@ -161,12 +175,14 @@ int main(){
 
   printf("\nThe key is: %d.\n", key);
   printf("Encrypted message: %s \n", encryptedMsg);
-  
+
   // decipher message
   char decipheredMsg[100];
-  
-  decrypt(encryptedMsg, decipheredMsg, key);
-  
+  //decipheredMsg[0] = 'b';
+  //decipheredMsg[1] = 'k';
+
+  int res = decrypt(encryptedMsg, decipheredMsg, key);
+
   printf("Decrypted message: %s \n", decipheredMsg);
 
   return 0;
