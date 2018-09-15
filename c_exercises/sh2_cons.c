@@ -1,3 +1,5 @@
+// run consumer first ./Consumer &
+
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -29,7 +31,7 @@ int main(){
 	srand((unsigned int)getpid());	// seed for random. next = getpid() value
 
 	// create, but since there is a shared memory with the same key that already exists it just gets the id.
-	shmid = shmget((key_t)1234, sizeof(struct shared_Array_st), 0666 | IPC_CREAT);	//
+	shmid = shmget((key_t)2345, sizeof(struct shared_Array_st), 0666 | IPC_CREAT);	//
   errno=0;
 	if(shmid == -1){
 		fprintf(stderr, "shmget failed: %d\n", errno);
@@ -109,7 +111,7 @@ int main(){
   // close the semaphore for this process, the semaphore remains in the system
   sem_close(sem);
   sem_close(sem_delay);
-	
+
 	// The sem_unlink() function removes the semaphore identified by name and marks the semaphore to be destroyed once all processes cease using it (this may mean immediately, if all processes that had the semaphore open have already closed it).
 	sem_unlink(SNAME);
   sem_unlink(SEM_DELAY);
@@ -135,19 +137,19 @@ Reader from array on shared memory
 int main(){
 
 	int arr_size = 5;
-	
+
 	int *shared_memory_arr;
   	int shmid;
 
   	// create a shared memory to fit the struct array.
   	//int shmget(key_t key, size_t size, int shmflg);
-	shmid = shmget((key_t)1234, sizeof(int) * arr_size, 0666 | IPC_CREAT);	
+	shmid = shmget((key_t)1234, sizeof(int) * arr_size, 0666 | IPC_CREAT);
 	//errno = 0;
 	if(shmid == -1){
 		fprintf(stderr, "shmget failed: %d\n", errno);
 		exit(EXIT_FAILURE);
 	}
-	
+
 	// attach
   	//void *shmat(int shm_id, const void *shm_addr, int shmflg);
   	shared_memory_arr = shmat(shmid, (void*)0, 0);	//attach the shared memory to shmid. Returns pointer to the first byte of the shared memory
@@ -157,19 +159,19 @@ int main(){
   	}
 
  	printf("Memory attached at %X\n", (int)shared_memory_arr);
-	
+
 	//Read from the array on shared memory
 	printf("Reader reads: \n");
 	for (int i = 0; i < arr_size; i ++){
 		printf("%d \n", shared_memory_arr[i]);
 	}
-	
+
 	// after finished, detach from shared memory
 	if (shmdt(shared_memory_arr) == -1){
 		fprintf(stderr, "shmdt failed\n");
 		exit(EXIT_FAILURE);
 	}
-	
+
 	return 0;
 
 }

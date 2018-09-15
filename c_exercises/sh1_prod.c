@@ -1,6 +1,8 @@
 // Producer/Consumer is when the resource on shared memory is created and destroyed
 // while writer/reader is when the data is reusable, meaning we can have multiple readers.
 
+// for shared memory as long as you have the key the shared memory will be in the system to attach to until destroyed.
+
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -34,7 +36,7 @@ int main(){
 
   // create a shared memory to fit the struct array.
   //int shmget(key_t key, size_t size, int shmflg);
-  shmid = shmget((key_t)1234, sizeof(struct shared_Array_st), 0666 | IPC_CREAT);	//
+  shmid = shmget((key_t)2345, sizeof(struct shared_Array_st), 0666 | IPC_CREAT);	//
   //errno = 0;
   if(shmid == -1){
     fprintf(stderr, "shmget failed: %d\n", errno);
@@ -135,19 +137,19 @@ Writer to the array in shared memory.
 int main(){
 
 	int arr_size = 5;
-	
+
 	int *shared_memory_arr;
   	int shmid;
 
   	// create a shared memory to fit the struct array.
   	//int shmget(key_t key, size_t size, int shmflg);
-	shmid = shmget((key_t)1234, sizeof(int) * arr_size, 0666 | IPC_CREAT);	
+	shmid = shmget((key_t)1234, sizeof(int) * arr_size, 0666 | IPC_CREAT);
 	//errno = 0;
 	if(shmid == -1){
 		fprintf(stderr, "shmget failed: %d\n", errno);
 		exit(EXIT_FAILURE);
 	}
-	
+
 	// attach
   	//void *shmat(int shm_id, const void *shm_addr, int shmflg);
   	shared_memory_arr = shmat(shmid, (void*)0, 0);	//attach the shared memory to shmid. Returns pointer to the first byte of the shared memory
@@ -162,19 +164,19 @@ int main(){
 	for(int i = 0; i < arr_size; i ++){
 		*(shared_memory_arr + i) = i;
 	}
-	
+
 	// print it
 	printf("Writer reads: \n");
 	for(int i = 0; i < arr_size; i ++){
 		printf("%d \n", shared_memory_arr[i]);
 	}
-	
+
 	// after finished, detach from shared memory
 	if (shmdt(shared_memory_arr) == -1){
 		fprintf(stderr, "shmdt failed\n");
 		exit(EXIT_FAILURE);
 	}
-	
+
 	return 0;
 }
 
