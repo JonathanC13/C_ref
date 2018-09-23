@@ -36,8 +36,8 @@ int main(){
 
   // create a shared memory to fit the struct array.
   //int shmget(key_t key, size_t size, int shmflg);
-  shmid = shmget((key_t)2345, sizeof(struct shared_Array_st), 0666 | IPC_CREAT);	//
-  //errno = 0;
+  shmid = shmget((key_t)5555, sizeof(struct shared_Array_st), 0666 | IPC_CREAT);	//
+  errno = 0;
   if(shmid == -1){
     fprintf(stderr, "shmget failed: %d\n", errno);
     exit(EXIT_FAILURE);
@@ -56,7 +56,7 @@ int main(){
   // assign shared_memory to shared stuff.
   shared_stuff = (struct shared_Array_st *)shared_memory;	//point to first byte
 
-
+  printf("P: where is the shared mem: %p.\n", shared_stuff);
   // open the semaphore
   sem_t *sem = sem_open(SEM_NAME, 0); /* Open a preexisting semaphore. name doesn't matter */
 

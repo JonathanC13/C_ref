@@ -1,4 +1,4 @@
-all: myExercises someSorts DB_LinkedList Producer Consumer CaesarC shArr_Writer shArr_Reader
+all: myExercises someSorts DB_LinkedList Producer Consumer CaesarC shArr_Writer shArr_Reader shLL_Writer shLL_Reader
 
 myExercises: Declarations_Expressions.c SearchAlg.c SortAlg.c
 	gcc -o myExercises Declarations_Expressions.c SearchAlg.c SortAlg.c -lm
@@ -23,3 +23,9 @@ shArr_Writer: sh_arrWriter.c
 
 shArr_Reader: sh_arrReader.c
 	gcc -o shArr_Reader sh_arrReader.c
+
+shLL_Writer: shLL_Writer.c
+	gcc -o shLL_Writer shLL_Writer.c -lpthread
+
+shLL_Reader: shLL_Reader.c
+	gcc -o shLL_Reader shLL_Reader.c -lpthread

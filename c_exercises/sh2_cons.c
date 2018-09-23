@@ -31,7 +31,7 @@ int main(){
 	srand((unsigned int)getpid());	// seed for random. next = getpid() value
 
 	// create, but since there is a shared memory with the same key that already exists it just gets the id.
-	shmid = shmget((key_t)2345, sizeof(struct shared_Array_st), 0666 | IPC_CREAT);	//
+	shmid = shmget((key_t)5555, sizeof(struct shared_Array_st), 0666 | IPC_CREAT);	//
   errno=0;
 	if(shmid == -1){
 		fprintf(stderr, "shmget failed: %d\n", errno);
@@ -50,6 +50,7 @@ int main(){
   // assign shared_memory to shared stuff.
 	shared_stuff = (struct shared_Array_st *)shared_memory;	//point to first byte
 
+  printf("C: where is the shared mem: %p.\n", shared_stuff);
   // Create semaphore to be shared, sem_open does this while sem_init will give a copy to child processes.
   //Use sem_open with O_CREAT in the process that creates them
 	sem_t *sem = sem_open(SNAME, O_CREAT, 0644, 0); /* Initial value is 0. */
@@ -98,9 +99,10 @@ int main(){
     */
     // got to newly produced
     //fflush(stdout);
-    printf("You wrote: %s\n", shared_stuff[curr_index].string1);
+    printf("You wrote: %s with old = %d.\n", shared_stuff[curr_index].string1, shared_stuff[curr_index].old);
     sleep(3);	// since sleep, makes other processes wait for this to finish
     shared_stuff[curr_index].old = 0;
+    printf("Change old = %d.\n", shared_stuff[curr_index].old);
     if(strncmp(shared_stuff[curr_index].string1, "end", 3) == 0){		// if end was written, finished
       running = 0;
     }
