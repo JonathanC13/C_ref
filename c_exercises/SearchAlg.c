@@ -299,55 +299,62 @@ void jumpSearch(int* target, int size){
 }
 
 /*
-for (int i = 0; i < size; (i ++) ){
-
-  if((searchIn = i*fixedJump) >= size){
-    searchIn = size-1;
-    //printf("search: %d\n", array[searchIn]);
-    // value of target, dereference
-    if(array[searchIn] < *target){
-      // not in list
-      found = 0;
-      break;
-    } else if (array[searchIn] == *target){
-      found = 1;
-      break;
-    } else if (array[searchIn] > *target){
-      high = searchIn;
-      found = 2;
-      break;
+int current, prev = 0;
+    int jump = 2;
+    int count = 0;
+    int size = 10;
+    int target = 1;
+    
+    int range_found = 1;
+    
+    int yeet[10] = {1,2,3,4,5,6,7,8,9,10};
+    
+    int max_tested = 1;
+    
+    for (current = 0; current < size; current = current + jump){
+        printf("index %i \n", current);
+        
+        if (yeet[current] == target){
+            printf("Found at %i.\n", current);
+            range_found = 2;
+            break;
+        } else if (yeet[current] < target){
+            prev = current;
+            
+        } else if(yeet[current] > target){
+            range_found = 0;
+            break;
+        }
+        
+        //printf("\n");
+        if(max_tested == 0){
+            break;
+        }
+        if((current + jump) >= size){
+            current = (size-1) - jump; // set to max
+            max_tested = 0;
+        }
     }
-  }
-
-  if(array[searchIn] == local_tar){
-    found = 1;
-  } else if(array[searchIn] > local_tar) {
-    high = searchIn;
-  } // else jump again
-}
-
-// Getting the lower bound
-if(found == 2){
-  // logically only need 1 jump back, but I'll just put this here.
-  while(1){
-    searchIn = searchIn - fixedJump;
-    if (searchIn >= 0){
-      if(searchIn < *target){
-        low = searchIn;
-        break;
-      }
+    
+    printf("\n");
+    int found_flag = 1;
+    
+    if(range_found == 1){
+        printf("Not found.\n");
+    } else if(range_found == 0){
+        for(prev; prev <= current; prev ++){
+            if (yeet[prev] == target){
+                printf("Found at %i. \n", prev);
+                found_flag = 0;
+                break;
+            }
+        }
+        if (found_flag == 1){
+            printf("Not found.\n");
+        }
+    } else if(range_found == 2){
+        // pass
     }
-  }
-
-  found = 0;
-  // Just do the linear search here
-  for(int j = low; j < high; j ++){
-    if(array[j] == *target){
-      found = 1;
-      searchIn = j;
-      break;
-    }
-  }
   */
 
 int int_min(int a, int b)
