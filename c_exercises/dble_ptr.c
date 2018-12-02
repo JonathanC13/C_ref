@@ -11,6 +11,24 @@ Write your code in this editor and press "Run" button to compile and execute it.
 
 /* C is pass by value, since when we pass a variable a copy is passed. Even when we pass a pointer
 into a function it is copying the value of the pointer (the address) and to get the value you must dereference it.
+
+// Java: they pass primitive types by value and class types by reference.
+1. Passing an object does not copy the object.
+2. An object passed to a function can have its members modified by the function.
+3. A primitive value passed to a function cannot be modified by the function. A copy is made.
+  -
+    boolean, the type whose values are either true or false
+    char, the character type whose values are 16-bit Unicode characters
+    the arithmetic types:
+        the integral types:
+            byte
+            short
+            int
+            long
+        the floating-point types:
+            float
+            double
+
 */
 // Tip for modifying variables
 /*
