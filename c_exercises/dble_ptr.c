@@ -9,10 +9,15 @@ Write your code in this editor and press "Run" button to compile and execute it.
 #include <stdio.h>
 #include <stdlib.h>
 
+/* C is pass by value, since when we pass a variable a copy is passed. Even when we pass a pointer
+into a function it is copying the value of the pointer (the address) and to get the value you must dereference it.
+*/
 // Tip for modifying variables
 /*
 void change(int* p){
     *p = 6;
+    printf("\n%i \n", *c);  // value
+    printf("\n%i \n", c); // address
 }
 
 int main()
@@ -36,6 +41,8 @@ also with just address
 /*
 void change(int *arr){
   arr[0] = 1; // or *(arr + 0) = 1;
+  printf("\n%i \n", c[0]); //value
+  printf("\n%i \n", c); // address
 }
 // main call
 int arr[2] = {2,1};
